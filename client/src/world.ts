@@ -7,6 +7,8 @@ export interface Region {
 }
 
 export const REGIONS: Region[] = [
+  { id: 'menagerie', n: 0, name: 'The Menagerie', hue: '#ECE8F1', game: 'both', x: 0, y: 0,
+    line: 'Everyone who lives in the Deep, in one room. For looking at the art.', opens: 'Always open' },
   { id: 'antechamber', n: 1, name: 'The Antechamber', hue: '#ECE8F1', game: 'both', x: .5, y: .13,
     line: 'Where every Reader starts. One draught, one shift, and the rules.', opens: 'Open from the start' },
   { id: 'stillroom', n: 2, name: 'The Stillroom', hue: '#E8A65A', game: 'potions', x: .25, y: .33,
@@ -36,8 +38,8 @@ export const RANKS = [
 
 export interface State { xp: number; open: string[]; cleared: string[]; journal: { room: string; guess: string; truth: string; right: boolean }[] }
 
-const KEY = 'changeling-deep:v1';
-const fresh = (): State => ({ xp: 0, open: ['antechamber'], cleared: [], journal: [] });
+const KEY = 'changeling-deep:v2';
+const fresh = (): State => ({ xp: 0, open: ['antechamber', 'menagerie'], cleared: [], journal: [] });
 
 export function load(): State {
   try { return { ...fresh(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return fresh(); }

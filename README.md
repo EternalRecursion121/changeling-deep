@@ -9,3 +9,6 @@ A dungeon crawler where every creature is a steered language model. Working titl
 - `art/`: Midjourney prompts; drop the images in `art/midjourney/`
 
 The creature replies are canned (`client/src/mock.ts`) until the steering server exists.
+
+Controls: WASD or arrows to walk, E to talk, 1 / 2 to switch between the pixel and pencil art.
+Pixel tiles: Kenney's 1-Bit Pack, CC0 (`client/public/tiles/1bit-LICENSE.txt`).

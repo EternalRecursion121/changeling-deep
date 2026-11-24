@@ -2,7 +2,6 @@
 // right along the top so the player always knows where they are; the lantern (turns left) and the vial
 // sit at the foot of the conversation, where the hands are.
 
-import { placeholderPortrait } from './dither';
 import { ROOMS, Turn, reply } from './mock';
 import { State, region } from './world';
 
@@ -12,7 +11,7 @@ const XP = 120;
 
 const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
-export function roomScreen(root: HTMLElement, s: State, id: string, leave: (xp: number, passed: boolean) => void) {
+export function roomScreen(root: HTMLElement, s: State, id: string, portrait: (c: HTMLCanvasElement) => void, leave: (xp: number, passed: boolean) => void) {
   const room = ROOMS[id], g = region(room.region), sk = room.skin, p = room.potion;
   let phase: Phase = 'before', oil = room.oil, busy = false, pick = -1;
   const log: Turn[] = [{ who: 'note', text: room.narration }];
@@ -20,13 +19,13 @@ export function roomScreen(root: HTMLElement, s: State, id: string, leave: (xp: 
   root.innerHTML = `
     <main class="room" style="--hue:${g.hue}">
       <header class="bar">
-        <button class="back" id="back">&larr; The map</button>
+        <button class="back" id="back">&larr; Step away (Esc)</button>
         <ol class="steps" id="steps"></ol>
         <span class="where">${g.name}</span>
       </header>
       <section class="stage">
         <figure class="creature">
-          <canvas id="portrait" width="180" height="230"></canvas>
+          <canvas id="portrait" width="360" height="400"></canvas>
           <figcaption><h2>${esc(sk.name)}</h2><p>${esc(sk.body)}, ${esc(sk.story)}.</p></figcaption>
         </figure>
         <div class="talk">
@@ -37,7 +36,7 @@ export function roomScreen(root: HTMLElement, s: State, id: string, leave: (xp: 
     </main>`;
   const $ = <T extends HTMLElement>(q: string) => root.querySelector<T>(q)!;
   const logEl = $('#log'), hands = $('#hands');
-  placeholderPortrait($<HTMLCanvasElement>('#portrait'), g.hue, room.seed);
+  portrait($<HTMLCanvasElement>('#portrait'));
   $('#back').addEventListener('click', () => leave(0, false));
 
   function renderSteps() {
@@ -94,7 +93,7 @@ export function roomScreen(root: HTMLElement, s: State, id: string, leave: (xp: 
           <h3>${esc(p.label)}</h3>
           <p>${esc(p.why)}</p>
           ${pre && post ? `<div class="pair"><div><span>Before</span>${esc(pre.text)}</div><div><span>After</span>${esc(post.text)}</div></div>` : ''}
-          <button class="go" id="done">${right ? 'Back to the map' : 'Back to the map, and try again'}</button>
+          <button class="go" id="done">${right ? 'Step away' : 'Step away, and try again'}</button>
         </div>`;
       s.journal.push({ room: room.id, guess: p.options[pick], truth: p.label, right });
       $('#done').addEventListener('click', () => leave(xp, right));

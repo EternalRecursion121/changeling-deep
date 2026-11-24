@@ -107,15 +107,20 @@ who and what the draught did. That is the end of the main path.
 
 ## Look and feel
 
-- **One ink per region on black**, dithered, the same visual language as the Mindscapes agenda page.
-  Creature portraits are Midjourney paintings reduced to one-ink Atkinson dithers.
-- **Fog of war as dither.** Unearned regions are a dense dither; earning one dissolves it pixel by
-  pixel outward from the path you came by (the agenda page's backdrop dissolve, reused).
-- **The talk is the game**, so the dialogue panel gets most of the screen in a room: portrait left,
-  conversation right, the player's tools (vials, lantern, journal) along the bottom.
-- **Type**: a display face for headings only, a readable serif for the creatures' speech, a mono face
-  for the Reader's notes and the UI chrome.
-- **Tone**: dry and a little eerie. The guild is bureaucratic about souls; the creatures are not.
+The Deep is walked, not clicked: a top-down tile dungeon, WASD to move a tile at a time, E to talk to
+whoever you face. The lantern lights a radius around you; ground you have seen stays on the map,
+dimmed. Regions are physically joined, and an unearned region is behind a sealed door. Talking to a
+creature opens the conversation over the dungeon (portrait left, talk right, vial and lantern at the
+foot).
+
+Two art directions are in the prototype, switchable in play with 1 and 2, to choose between:
+
+- **Pixel**: Kenney's 1-Bit Pack (CC0), one ink per region on black, close to the Mindscapes agenda page.
+- **Pencil**: graphite on paper. Cave walls in Dyson-style hatching, characters as rough doodles
+  with Mervyn Peake's Gormenghast sketches as the reference. Unseen ground is blank paper, so the
+  map draws itself as you explore.
+
+The Menagerie, west of the Antechamber, holds every character the art can make, for looking at.
 
 ## Technical shape
 
