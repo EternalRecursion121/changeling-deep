@@ -47,7 +47,7 @@ export function valueNoise(w: number, h: number, cell: number, seed: number): Fl
   return out;
 }
 
-// Placeholder portrait until the Midjourney paintings exist: a hooded figure in a pool of light, from
+// Placeholder portrait until painted portraits exist: a hooded figure in a pool of light, from
 // shapes and noise, dithered. Each creature passes its own seed so they differ a little.
 export function placeholderPortrait(canvas: HTMLCanvasElement, hex: string, seed: number) {
   const w = canvas.width, h = canvas.height, ctx = canvas.getContext('2d')!;
