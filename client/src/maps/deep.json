@@ -1,0 +1,668 @@
+{
+ "name": "The Deep",
+ "w": 44,
+ "h": 36,
+ "start": {
+  "x": 21,
+  "y": 3
+ },
+ "tiles": [
+  "############################################",
+  "#c...........c##############################",
+  "#.............##c..c.SS.c..c################",
+  "#.............##............################",
+  "#.............##............################",
+  "#.............##..p......p..################",
+  "#..............+............################",
+  "#.............##............################",
+  "#.............##............################",
+  "#.............##wC........C.################",
+  "#.............####+######+##################",
+  "#C...........C####.######.##################",
+  "##################.######.##################",
+  "##################.######.##################",
+  "#########bbbbb.bbbbb####m.m.m.m.m.m#########",
+  "#########...........####...........#########",
+  "#########...........####...........#########",
+  "#########...........####...........#########",
+  "#########..k........####...........#########",
+  "#########.......tb..####...........#########",
+  "#########...........####...........#########",
+  "#########..........w####c.........c#########",
+  "##############.##############.##############",
+  "##############.##############.##############",
+  "##############.##############.##############",
+  "##############.##############.##############",
+  "#############B.BBBBBBBBBBBBBB.B#############",
+  "#############..................#############",
+  "#############..................#############",
+  "#############..................#############",
+  "#############~~~~~~~...~~~~~~~~#############",
+  "#############~~~~~~~...~~~~~~~~#############",
+  "#############~~~~~~~...~~~~~~~~#############",
+  "#####################.######################",
+  "#####################.######################",
+  "############################################"
+ ],
+ "regions": [
+  "nnnnnnnnnnnnnnn.............................",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnnaaaaaaaaaaaaaa...............",
+  "nnnnnnnnnnnnnnn.............................",
+  "nnnnnnnnnnnnnnn.............................",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "........sssssssssssss..qqqqqqqqqqqqq........",
+  "............................................",
+  "............................................",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............llllllllllllllllllll............",
+  "............................................",
+  "............................................"
+ ],
+ "gates": [
+  {
+   "x": 18,
+   "y": 11,
+   "region": "stillroom",
+   "says": "Sealed with the Readers' wax. Finish the Antechamber first."
+  },
+  {
+   "x": 25,
+   "y": 11,
+   "region": "masquerade",
+   "says": "Sealed with the Readers' wax. Finish the Antechamber first."
+  },
+  {
+   "x": 14,
+   "y": 25,
+   "region": "library",
+   "says": "The Archivist lets in only those who have passed both tutorials: the Stillroom and the Masquerade."
+  },
+  {
+   "x": 29,
+   "y": 25,
+   "region": "library",
+   "says": "The Archivist lets in only those who have passed both tutorials: the Stillroom and the Masquerade."
+  },
+  {
+   "x": 21,
+   "y": 34,
+   "region": "deeper",
+   "says": "The way down. The Underbrewery and the Mirror Warrens open at Journeyman; the Wellspring at Adept."
+  }
+ ],
+ "npcs": [
+  {
+   "id": "odile",
+   "x": 21,
+   "y": 6,
+   "sprite": 74,
+   "name": "Odile",
+   "room": "antechamber",
+   "idle": "trims a wick"
+  },
+  {
+   "id": "aldous",
+   "x": 14,
+   "y": 17,
+   "sprite": 77,
+   "name": "Brother Aldous",
+   "idle": "counts bottles under his breath"
+  },
+  {
+   "id": "miller",
+   "x": 26,
+   "y": 17,
+   "sprite": 216,
+   "name": "The miller",
+   "idle": "stands very still"
+  },
+  {
+   "id": "bellringer",
+   "x": 29,
+   "y": 16,
+   "sprite": 218,
+   "name": "The bell-ringer",
+   "idle": "watches you"
+  },
+  {
+   "id": "widow",
+   "x": 32,
+   "y": 18,
+   "sprite": 219,
+   "name": "The widow",
+   "idle": "does not turn round"
+  },
+  {
+   "id": "archivist",
+   "x": 21,
+   "y": 28,
+   "sprite": 411,
+   "name": "The Archivist",
+   "idle": "drifts over the water"
+  },
+  {
+   "id": "m0",
+   "x": 2,
+   "y": 2,
+   "sprite": 24,
+   "name": "Resident 1",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 0
+  },
+  {
+   "id": "m1",
+   "x": 10,
+   "y": 8,
+   "sprite": 25,
+   "name": "Resident 2",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 1
+  },
+  {
+   "id": "m2",
+   "x": 6,
+   "y": 6,
+   "sprite": 26,
+   "name": "Resident 3",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 2
+  },
+  {
+   "id": "m3",
+   "x": 2,
+   "y": 4,
+   "sprite": 27,
+   "name": "Resident 4",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 3
+  },
+  {
+   "id": "m4",
+   "x": 10,
+   "y": 10,
+   "sprite": 28,
+   "name": "Resident 5",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 4
+  },
+  {
+   "id": "m5",
+   "x": 6,
+   "y": 8,
+   "sprite": 29,
+   "name": "Resident 6",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 5
+  },
+  {
+   "id": "m6",
+   "x": 2,
+   "y": 6,
+   "sprite": 30,
+   "name": "Resident 7",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 6
+  },
+  {
+   "id": "m7",
+   "x": 9,
+   "y": 3,
+   "sprite": 31,
+   "name": "Resident 8",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 7
+  },
+  {
+   "id": "m8",
+   "x": 6,
+   "y": 10,
+   "sprite": 72,
+   "name": "Resident 9",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 8
+  },
+  {
+   "id": "m9",
+   "x": 2,
+   "y": 8,
+   "sprite": 73,
+   "name": "Resident 10",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 9
+  },
+  {
+   "id": "m10",
+   "x": 9,
+   "y": 5,
+   "sprite": 74,
+   "name": "Resident 11",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 10
+  },
+  {
+   "id": "m11",
+   "x": 5,
+   "y": 3,
+   "sprite": 75,
+   "name": "Resident 12",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 11
+  },
+  {
+   "id": "m12",
+   "x": 2,
+   "y": 10,
+   "sprite": 76,
+   "name": "Resident 13",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 12
+  },
+  {
+   "id": "m13",
+   "x": 9,
+   "y": 7,
+   "sprite": 77,
+   "name": "Resident 14",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 13
+  },
+  {
+   "id": "m14",
+   "x": 5,
+   "y": 5,
+   "sprite": 78,
+   "name": "Resident 15",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 14
+  },
+  {
+   "id": "m15",
+   "x": 12,
+   "y": 2,
+   "sprite": 79,
+   "name": "Resident 16",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 15
+  },
+  {
+   "id": "m16",
+   "x": 9,
+   "y": 9,
+   "sprite": 120,
+   "name": "Resident 17",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 16
+  },
+  {
+   "id": "m17",
+   "x": 5,
+   "y": 7,
+   "sprite": 121,
+   "name": "Resident 18",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 17
+  },
+  {
+   "id": "m18",
+   "x": 12,
+   "y": 4,
+   "sprite": 122,
+   "name": "Resident 19",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 18
+  },
+  {
+   "id": "m19",
+   "x": 8,
+   "y": 2,
+   "sprite": 123,
+   "name": "Resident 20",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 19
+  },
+  {
+   "id": "m20",
+   "x": 5,
+   "y": 9,
+   "sprite": 124,
+   "name": "Resident 21",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 20
+  },
+  {
+   "id": "m21",
+   "x": 12,
+   "y": 6,
+   "sprite": 125,
+   "name": "Resident 22",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 21
+  },
+  {
+   "id": "m22",
+   "x": 8,
+   "y": 4,
+   "sprite": 126,
+   "name": "Resident 23",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 22
+  },
+  {
+   "id": "m23",
+   "x": 4,
+   "y": 2,
+   "sprite": 127,
+   "name": "Resident 24",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 23
+  },
+  {
+   "id": "m24",
+   "x": 12,
+   "y": 8,
+   "sprite": 168,
+   "name": "Resident 25",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 24
+  },
+  {
+   "id": "m25",
+   "x": 8,
+   "y": 6,
+   "sprite": 169,
+   "name": "Resident 26",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 25
+  },
+  {
+   "id": "m26",
+   "x": 4,
+   "y": 4,
+   "sprite": 170,
+   "name": "Resident 27",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 26
+  },
+  {
+   "id": "m27",
+   "x": 12,
+   "y": 10,
+   "sprite": 171,
+   "name": "Resident 28",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 27
+  },
+  {
+   "id": "m28",
+   "x": 8,
+   "y": 8,
+   "sprite": 172,
+   "name": "Resident 29",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 28
+  },
+  {
+   "id": "m29",
+   "x": 4,
+   "y": 6,
+   "sprite": 173,
+   "name": "Resident 30",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 29
+  },
+  {
+   "id": "m30",
+   "x": 11,
+   "y": 3,
+   "sprite": 174,
+   "name": "Resident 31",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 30
+  },
+  {
+   "id": "m31",
+   "x": 8,
+   "y": 10,
+   "sprite": 175,
+   "name": "Resident 32",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 31
+  },
+  {
+   "id": "m32",
+   "x": 4,
+   "y": 8,
+   "sprite": 216,
+   "name": "Resident 33",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 32
+  },
+  {
+   "id": "m33",
+   "x": 11,
+   "y": 5,
+   "sprite": 217,
+   "name": "Resident 34",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 33
+  },
+  {
+   "id": "m34",
+   "x": 7,
+   "y": 3,
+   "sprite": 218,
+   "name": "Resident 35",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 34
+  },
+  {
+   "id": "m35",
+   "x": 4,
+   "y": 10,
+   "sprite": 219,
+   "name": "Resident 36",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 35
+  },
+  {
+   "id": "m36",
+   "x": 11,
+   "y": 7,
+   "sprite": 220,
+   "name": "Resident 37",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 36
+  },
+  {
+   "id": "m37",
+   "x": 7,
+   "y": 5,
+   "sprite": 221,
+   "name": "Resident 38",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 37
+  },
+  {
+   "id": "m38",
+   "x": 3,
+   "y": 3,
+   "sprite": 222,
+   "name": "Resident 39",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 38
+  },
+  {
+   "id": "m39",
+   "x": 11,
+   "y": 9,
+   "sprite": 223,
+   "name": "Resident 40",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 39
+  },
+  {
+   "id": "m40",
+   "x": 7,
+   "y": 7,
+   "sprite": 312,
+   "name": "Resident 41",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 40
+  },
+  {
+   "id": "m41",
+   "x": 3,
+   "y": 5,
+   "sprite": 313,
+   "name": "Resident 42",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 41
+  },
+  {
+   "id": "m42",
+   "x": 10,
+   "y": 2,
+   "sprite": 314,
+   "name": "Resident 43",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 42
+  },
+  {
+   "id": "m43",
+   "x": 7,
+   "y": 9,
+   "sprite": 315,
+   "name": "Resident 44",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 43
+  },
+  {
+   "id": "m44",
+   "x": 3,
+   "y": 7,
+   "sprite": 316,
+   "name": "Resident 45",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 44
+  },
+  {
+   "id": "m45",
+   "x": 10,
+   "y": 4,
+   "sprite": 317,
+   "name": "Resident 46",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 45
+  },
+  {
+   "id": "m46",
+   "x": 6,
+   "y": 2,
+   "sprite": 318,
+   "name": "Resident 47",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 46
+  },
+  {
+   "id": "m47",
+   "x": 3,
+   "y": 9,
+   "sprite": 319,
+   "name": "Resident 48",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 47
+  },
+  {
+   "id": "m48",
+   "x": 10,
+   "y": 6,
+   "sprite": 264,
+   "name": "Resident 49",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 48
+  },
+  {
+   "id": "m49",
+   "x": 6,
+   "y": 4,
+   "sprite": 265,
+   "name": "Resident 50",
+   "idle": "looks back at you",
+   "wander": true,
+   "hue": 49
+  }
+ ]
+}

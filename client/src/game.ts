@@ -4,7 +4,7 @@
 // the map draws itself as you explore.
 
 import { Style, hueAt, pencilStyle, pixelStyle } from './art';
-import { Cell, Gate, Npc, areaAt, build } from './dungeon';
+import { Cell, Gate, MapData, Npc, areaAt, build } from './dungeon';
 import { roomScreen } from './room';
 import { State, clear, rank, nextRank, region, save } from './world';
 
@@ -14,8 +14,8 @@ const KEYS: Record<string, Dir> = {
   w: [0, -1], arrowup: [0, -1], s: [0, 1], arrowdown: [0, 1], a: [-1, 0], arrowleft: [-1, 0], d: [1, 0], arrowright: [1, 0],
 };
 
-export function game(root: HTMLElement, s: State, sheet: HTMLImageElement) {
-  const { g, gates, npcs, start } = build();
+export function game(root: HTMLElement, s: State, sheet: HTMLImageElement, map: MapData) {
+  const { g, gates, npcs, start } = build(map);
   const W = g[0].length, H = g.length;
   const styles = { pixel: pixelStyle(sheet), pencil: pencilStyle() };
   let style: Style = styles[pickStyle()], layer = style.layer(g);
@@ -28,6 +28,7 @@ export function game(root: HTMLElement, s: State, sheet: HTMLImageElement) {
         <span class="title">Changeling Deep</span>
         <span class="here" id="here"></span>
         <span class="rank" id="rank"></span>
+        <a class="designer" href="/editor">Designer</a>
         <span class="styles"><button data-s="pixel">1 Pixel</button><button data-s="pencil">2 Pencil</button></span>
       </header>
       <p class="toast" id="toast"></p>
@@ -73,7 +74,7 @@ export function game(root: HTMLElement, s: State, sheet: HTMLImageElement) {
     const n = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
     for (let i = 1; i < n; i++) {
       const x = Math.round(x0 + (x1 - x0) * i / n), y = Math.round(y0 + (y1 - y0) * i / n);
-      if (g[y][x].t === '#' || g[y][x].t === 'p' || g[y][x].t === 'B') return false;
+      if (g[y][x].sight) return false;
     }
     return true;
   }

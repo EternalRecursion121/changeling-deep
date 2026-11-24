@@ -4,7 +4,7 @@
 // Each style draws the static map once into a big canvas, and gives sprites for anything that moves.
 
 import { atkinson, rng, valueNoise } from './dither';
-import { AREAS, COLS, Cell, Npc, T, TILE, areaAt } from './dungeon';
+import { COLS, Cell, Npc, T, TILE, areaAt } from './dungeon';
 import { GRAPHITE, Pen, Spec, doodle, paper, randomSpec } from './pencil';
 import { REGIONS, region } from './world';
 
@@ -78,8 +78,8 @@ const NAMED: Record<string, Spec> = {
   widow: { kind: 'person', head: 'veil', hat: 'brim', body: 'robe', prop: 'flower' },
   archivist: { kind: 'ghost' },
 };
-export const specOf = (n: Npc) => NAMED[n.id] ?? randomSpec(Number(n.id.slice(1)) + 1);
-const seedOf = (id: string) => [...id].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) >>> 0;
+export const specOf = (n: Npc) => NAMED[n.id] ?? randomSpec(/^m\d+$/.test(n.id) ? Number(n.id.slice(1)) + 1 : seedOf(n.id));
+export const seedOf = (id: string) => [...id].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) >>> 0;
 // the region inks are made for black; on paper they need to be darker to read
 const deepen = (hex: string, f = 0.5) => [1, 3, 5].map((j) => Math.round(parseInt(hex.slice(j, j + 2), 16) * f)).join(',');
 
@@ -131,7 +131,7 @@ export function pencilStyle(): Style {
       return c;
     },
     npc(n) {
-      const key = `n${n.id}`;
+      const key = `n${n.id}|${npcHue(n)}`;
       if (cache.has(key)) return cache.get(key)!;
       const c = canvas(ts, ts * 1.5); doodle(c.getContext('2d')!, specOf(n), seedOf(n.id), ts / 64 * sc, deepen(npcHue(n), 0.55));
       cache.set(key, c); return c;
@@ -166,4 +166,3 @@ function deco(p: Pen, i: number) {
   else p.ellipse(32, 32, 10, 10);
 }
 
-export const areas = AREAS;

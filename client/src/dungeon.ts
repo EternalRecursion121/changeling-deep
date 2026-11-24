@@ -1,6 +1,6 @@
-// The Deep as tiles. Rooms are carved out of solid rock; each room belongs to a region and is drawn in
-// that region's ink. Sprites are indices into Kenney's 1-Bit Pack (CC0), monochrome_transparent_packed.png,
-// a 48-wide sheet of 16px tiles.
+// The Deep as tiles. A map is plain JSON (src/maps/*.json, made in the map designer at /editor.html):
+// a grid of tile characters, a grid of region letters, and lists of gates and characters. Sprites are
+// indices into Kenney's 1-Bit Pack (CC0), monochrome_transparent_packed.png, a 48-wide sheet of 16px tiles.
 
 export const COLS = 48, TILE = 16;
 
@@ -15,92 +15,53 @@ export const T = {
   books: 537, water: 61,
 } as const;
 
+// every tile a map can hold: its character in the JSON, its name in the designer, its sprite, whether it
+// blocks walking, and whether it blocks the lantern's light
+export interface Kind { ch: string; name: string; solid: boolean; sight?: boolean; deco?: (x: number) => number }
+export const KINDS: Kind[] = [
+  { ch: '#', name: 'Rock', solid: true, sight: true },
+  { ch: '.', name: 'Floor', solid: false },
+  { ch: '+', name: 'Doorway', solid: false, deco: () => T.door },
+  { ch: 'S', name: 'Stairs up', solid: true, deco: () => T.stairs },
+  { ch: 'c', name: 'Candle', solid: true, deco: () => T.candle },
+  { ch: 'C', name: 'Candle (low)', solid: true, deco: () => T.candle2 },
+  { ch: 'p', name: 'Pillar', solid: true, sight: true, deco: () => T.pillar },
+  { ch: 'b', name: 'Bottles', solid: true, deco: (x) => T.bottle[x % T.bottle.length] },
+  { ch: 'k', name: 'Cauldron', solid: true, deco: () => T.cauldron },
+  { ch: 't', name: 'Table', solid: true, deco: () => T.table },
+  { ch: 'm', name: 'Mask', solid: true, deco: (x) => T.mask[Math.floor(x / 2) % T.mask.length] },
+  { ch: 'B', name: 'Bookshelf', solid: true, sight: true, deco: () => T.books },
+  { ch: '~', name: 'Water', solid: true, deco: () => T.water },
+  { ch: 'w', name: 'Cobweb', solid: false, deco: () => T.web },
+  { ch: 'x', name: 'Skull', solid: false, deco: () => T.skull },
+];
+export const kind = (ch: string) => KINDS.find((k) => k.ch === ch) ?? KINDS[0];
+
+// region letters in the regions grid ('.' is none)
+export const REGION_KEY: Record<string, string> = {
+  n: 'menagerie', a: 'antechamber', s: 'stillroom', q: 'masquerade', l: 'library', u: 'underbrewery', r: 'warrens', v: 'wellspring',
+};
+
 export interface Npc { id: string; x: number; y: number; sprite: number; name: string; room?: string; idle?: string; wander?: boolean; hue?: number }
+export interface Gate { x: number; y: number; region: string; says: string }
+export interface MapData { name: string; w: number; h: number; start: { x: number; y: number }; tiles: string[]; regions: string[]; gates: Gate[]; npcs: Npc[] }
+export type Cell = { t: string; deco?: number; solid: boolean; sight: boolean };
+
+let current: MapData | null = null;
+
+export function build(m: MapData) {
+  current = m;
+  const g: Cell[][] = Array.from({ length: m.h }, (_, y) => Array.from({ length: m.w }, (_, x) => {
+    const k = kind(m.tiles[y]?.[x] ?? '#'); return { t: k.ch, deco: k.deco?.(x), solid: k.solid, sight: !!k.sight };
+  }));
+  return { g, gates: m.gates.map((q) => ({ ...q })), npcs: m.npcs.map((n) => ({ ...n })), start: { ...m.start } };
+}
+
+// which region a tile belongs to, in the map last built
+export const areaAt = (x: number, y: number) => current ? REGION_KEY[current.regions[y]?.[x] ?? '.'] : undefined;
 
 // every character in the sheet: six rows of people, then the beasts and monsters
-export const MENAGERIE: number[] = [
+export const SPRITES: number[] = [
   ...[0, 1, 2, 3, 4, 6].flatMap((r) => Array.from({ length: 8 }, (_, c) => r * 48 + 24 + c)),
   ...[5, 7, 8].flatMap((r) => Array.from({ length: 8 }, (_, c) => r * 48 + 24 + c)),
 ];
-export interface Gate { x: number; y: number; region: string; says: string }
-
-// regions as rectangles of floor (inclusive); a tile takes the hue of the region it lies in
-export const AREAS: { region: string; x0: number; y0: number; x1: number; y1: number }[] = [
-  { region: 'menagerie', x0: 1, y0: 1, x1: 13, y1: 11 },
-  { region: 'antechamber', x0: 16, y0: 2, x1: 27, y1: 9 },
-  { region: 'stillroom', x0: 9, y0: 14, x1: 19, y1: 21 },
-  { region: 'masquerade', x0: 24, y0: 14, x1: 34, y1: 21 },
-  { region: 'library', x0: 13, y0: 26, x1: 30, y1: 32 },
-];
-
-export const W = 44, H = 36;
-export type Cell = { t: string; deco?: number; solid: boolean };
-
-export function build() {
-  const g: Cell[][] = Array.from({ length: H }, () => Array.from({ length: W }, () => ({ t: '#', solid: true })));
-  const carve = (x0: number, y0: number, x1: number, y1: number) => {
-    for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) g[y][x] = { t: '.', solid: false };
-  };
-  const put = (x: number, y: number, t: string, deco?: number, solid = true) => { g[y][x] = { t, deco, solid }; };
-
-  for (const a of AREAS) carve(a.x0, a.y0, a.x1, a.y1);
-  // corridors
-  carve(18, 10, 18, 13); carve(25, 10, 25, 13);           // antechamber down to the stillroom and the masquerade
-  carve(14, 22, 14, 25); carve(29, 22, 29, 25);           // and on down to the library
-  carve(21, 33, 21, 34);                                   // the way deeper
-  carve(14, 6, 15, 6);                                     // west to the Menagerie
-
-  // the Antechamber: stairs up to the lodge, a row of lamps, two pillars
-  put(21, 2, 'S', T.stairs); put(22, 2, 'S', T.stairs);
-  for (const x of [16, 19, 24, 27]) put(x, 2, 'c', T.candle);
-  for (const x of [17, 26]) put(x, 9, 'c', T.candle2);
-  put(18, 5, 'p', T.pillar); put(25, 5, 'p', T.pillar);
-  put(16, 9, 'w', T.web, false);
-
-  // the Stillroom: shelves of bottles along the top, a still and a table
-  for (let x = 9; x <= 19; x++) if (x !== 14) put(x, 14, 'b', T.bottle[x % T.bottle.length]);
-  put(11, 18, 'k', T.cauldron); put(16, 19, 't', T.table); put(17, 19, 'b', T.bottle[2]);
-  put(19, 21, 'w', T.web, false);
-
-  // the Masquerade: masks hung along the top wall
-  for (let x = 24; x <= 34; x += 2) put(x, 14, 'm', T.mask[(x / 2) % T.mask.length]);
-  for (const [x, y] of [[24, 21], [34, 21]]) put(x, y, 'c', T.candle);
-
-  // the Drowned Library: shelves, and water across the lower half
-  for (let x = 13; x <= 30; x++) if (x !== 14 && x !== 29) put(x, 26, 'B', T.books);
-  for (let y = 30; y <= 32; y++) for (let x = 13; x <= 30; x++) if (x < 20 || x > 22) put(x, y, '~', T.water, true);
-
-  // doors: open ones are just floor with a door frame; locked ones are gates
-  put(15, 6, '+', T.door, false);
-  put(18, 10, '+', T.door, false); put(25, 10, '+', T.door, false);
-  const gates: Gate[] = [
-    { x: 18, y: 11, region: 'stillroom', says: 'Sealed with the Readers\' wax. Finish the Antechamber first.' },
-    { x: 25, y: 11, region: 'masquerade', says: 'Sealed with the Readers\' wax. Finish the Antechamber first.' },
-    { x: 14, y: 25, region: 'library', says: 'The Archivist lets in only those who have passed both tutorials: the Stillroom and the Masquerade.' },
-    { x: 29, y: 25, region: 'library', says: 'The Archivist lets in only those who have passed both tutorials: the Stillroom and the Masquerade.' },
-    { x: 21, y: 34, region: 'deeper', says: 'The way down. The Underbrewery and the Mirror Warrens open at Journeyman; the Wellspring at Adept.' },
-  ];
-
-  const npcs: Npc[] = [
-    { id: 'odile', x: 21, y: 6, sprite: 74, name: 'Odile', room: 'antechamber', idle: 'trims a wick' },
-    { id: 'aldous', x: 14, y: 17, sprite: 77, name: 'Brother Aldous', idle: 'counts bottles under his breath' },
-    { id: 'miller', x: 26, y: 17, sprite: 216, name: 'The miller', idle: 'stands very still' },
-    { id: 'bellringer', x: 29, y: 16, sprite: 218, name: 'The bell-ringer', idle: 'watches you' },
-    { id: 'widow', x: 32, y: 18, sprite: 219, name: 'The widow', idle: 'does not turn round' },
-    { id: 'archivist', x: 21, y: 28, sprite: 411, name: 'The Archivist', idle: 'drifts over the water' },
-  ];
-  // the Menagerie: a room of everyone in the sheet, for looking at the art. They wander.
-  const free: [number, number][] = [];
-  for (let y = 2; y <= 10; y++) for (let x = 2; x <= 12; x++) if ((x + y) % 2 === 0) free.push([x, y]);
-  MENAGERIE.forEach((sprite, i) => {
-    if (i >= free.length) return;
-    const [x, y] = free[(i * 37) % free.length];
-    if (npcs.some((n) => n.x === x && n.y === y)) return;
-    npcs.push({ id: `m${i}`, x, y, sprite, name: `Resident ${i + 1}`, idle: 'looks back at you', wander: true, hue: i });
-  });
-  put(1, 1, 'c', T.candle); put(13, 1, 'c', T.candle); put(1, 11, 'c', T.candle2); put(13, 11, 'c', T.candle2);
-  return { g, gates, npcs, start: { x: 21, y: 3 } };
-}
-
-export const areaAt = (x: number, y: number) =>
-  AREAS.find((a) => x >= a.x0 - 1 && x <= a.x1 + 1 && y >= a.y0 - 1 && y <= a.y1 + 1)?.region;
